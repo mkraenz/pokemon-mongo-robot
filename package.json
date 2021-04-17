@@ -1,6 +1,6 @@
 {
   "name": "mongodb-demo",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "pokemon are cool",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -9,7 +9,7 @@
   "license": "MIT",
   "keywords": [],
   "scripts": {
-    "start:mongo": "docker run -d --hostname mongo --name mongo mongo",
+    "start:mongo": "docker run -d --hostname mongo --name mongo -p 27017:27017 mongo",
     "start": "ts-node src/index.ts",
     "dev": "ts-node-dev --respawn src/index.ts",
     "build": "run-p build:*",
