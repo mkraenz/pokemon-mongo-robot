@@ -7,3 +7,9 @@ src/**.js
 coverage
 *.log
 yarn.lock
+
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+*.tfvars
