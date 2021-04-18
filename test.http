@@ -1,0 +1,25 @@
+# VS Code plugin "Rest Client"
+# https://marketplace.visualstudio.com/items?itemName=humao.rest-client
+POST http://localhost:3000
+Content-Type: application/json
+
+{
+    "name": "Glurak",
+    "attacks": [],
+    "type": "Normal",
+    "hp": "imnotanumber",
+    "level": 99,
+    "Ihackyou": true,
+    "id": 74576
+}
+
+### 
+
+GET http://localhost:3000
+
+###
+
+DELETE http://localhost:3000/23
+
+### 
+GET http://localhost:3000/2

@@ -8,8 +8,12 @@ coverage
 *.log
 yarn.lock
 
+mongo-data
+
 .terraform/
 *.tfstate
 *.tfstate.*
 .terraform.lock.hcl
 *.tfvars
+secret*
+.env
