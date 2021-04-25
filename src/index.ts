@@ -1,3 +1,4 @@
+import cors from 'cors';
 import express from 'express';
 import { Collection, MongoClient } from 'mongodb';
 import { MongoMemoryServer } from 'mongodb-memory-server';
@@ -47,10 +48,16 @@ const isPokemon = (data: any) => {
 };
 
 async function run() {
-  const port = 3000;
+  const port = 3001;
   const app = express();
   app.use(express.json());
   app.use(morgan('tiny'));
+  app.use(
+    cors({
+      origin: ['http://localhost:3000'],
+      methods: ['GET', 'POST', 'OPTIONS', 'DELETE'],
+    })
+  );
   // const { uri } = await setupMongoDbMemoryServer();
   const uri = 'mongodb://localhost:27017';
 
