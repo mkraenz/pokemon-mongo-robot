@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import logo from './logo.svg';
 
 export interface Pokemon {
   id: number;
@@ -40,22 +39,19 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <code>{JSON.stringify(pokemons, null, 2)}</code>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <PokemonList pokemons={pokemons}></PokemonList>
       </header>
     </div>
   );
 }
+
+function PokemonList(props: { pokemons: Pokemon[] }) {
+  const listItems = props.pokemons.map((pokemon) => <li>{pokemon.name}</li>);
+  return <ul>{listItems}</ul>;
+}
+
+// delete a pokemon from the list
+// show a page for a single pokemon (Details page)
+// create a new pokemon
 
 export default App;
