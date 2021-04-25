@@ -27,13 +27,13 @@ resource "docker_container" "mongo" {
     internal = 27017
     external = 27017
   }
-  env = [
-    # "MONGO_INITDB_ROOT_USERNAME=root",
-    # "MONGO_INITDB_ROOT_PASSWORD=example"
-  ]
+  # env = [
+  #   "MONGO_INITDB_ROOT_USERNAME=var.mongo_admin_username",
+  #   "MONGO_INITDB_ROOT_PASSWORD=var.mongo_admin_password"
+  # ]
 
   volumes {
-    host_path      = "/tmp/terraform"
+    host_path      = "/home/mirco/programming/mongodb-demo/mongo-data"
     container_path = "/tmp/mounts"
   }
 }
@@ -49,8 +49,8 @@ resource "docker_container" "mongo_express" {
   env = [
     "ME_CONFIG_MONGODB_SERVER=172.17.0.1", # static docker bridge network IP
     # "ME_CONFIG_MONGODB_PORT=27017",   
-    # "ME_CONFIG_MONGODB_ADMINUSERNAME=root",
-    # "ME_CONFIG_MONGODB_ADMINPASSWORD=example",
+    # "ME_CONFIG_MONGODB_ADMINUSERNAME=var.mongo_admin_username",
+    # "ME_CONFIG_MONGODB_ADMINPASSWORD=var.mongo_admin_password",
     # "ME_CONFIG_BASICAUTH_USERNAME=admin",
     # "ME_CONFIG_BASICAUTH_PASSWORD=ihavealongpassword"
   ]

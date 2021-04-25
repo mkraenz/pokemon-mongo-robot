@@ -22,4 +22,4 @@ GET http://localhost:3000
 DELETE http://localhost:3000/23
 
 ### 
-GET http://localhost:3000/2
+GET http://localhost:3000/0
