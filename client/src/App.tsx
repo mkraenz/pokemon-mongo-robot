@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import './App.css';
 
@@ -32,10 +33,9 @@ function App() {
   const [pokemons, updatePokemons] = useState([missingNo]);
   useEffect(() => {
     const setPokemonsFromServer = async () => {
-      const getPokemonsResponse = await fetch('http://localhost:3001', {
-        method: 'GET',
-      });
-      const pokemons: Pokemon[] = await getPokemonsResponse.json();
+      const { data: pokemons } = await axios.get<Pokemon[]>(
+        'http://localhost:3001'
+      );
       updatePokemons(pokemons);
     };
     setPokemonsFromServer();
@@ -71,18 +71,18 @@ function PokemonForm(p: { addToPokeList: (pokemon: Pokemon) => void }) {
   const [type, setType] = useState<PokemonTypes>(PokemonTypes.Water);
 
   const addPokemon = async (data: Partial<Pokemon>) => {
-    const response = await fetch('http://localhost:3001', {
-      method: 'POST',
-      body: JSON.stringify({
-        name: data.name || 'Picardtschuh',
-        attacks: data.attacks || [],
-        hp: data.hp || 42,
-        level: data.level || -3,
-        type: data.type,
-      }),
-      headers: { 'Content-Type': 'application/json' },
-    });
-    const createdPokemon = await response.json();
+    const newPokemon = {
+      name: data.name || 'Picardtschuh',
+      attacks: data.attacks || [],
+      hp: data.hp || 42,
+      level: data.level || -3,
+      type: data.type,
+    };
+    const { data: createdPokemon } = await axios.post(
+      'http://localhost:3001',
+      newPokemon,
+      { headers: { 'Content-Type': 'application/json' } }
+    );
     p.addToPokeList(createdPokemon);
   };
   const handleSubmit = (event: React.FormEvent) => {
@@ -111,14 +111,13 @@ function PokemonForm(p: { addToPokeList: (pokemon: Pokemon) => void }) {
     </form>
   );
 }
+
 function PokemonList(props: {
   pokemons: Pokemon[];
   removePokemon: (id: number) => void;
 }) {
   const removePokemon = async (id: number) => {
-    await fetch(`http://localhost:3001/${id}`, {
-      method: 'DELETE',
-    });
+    await axios.delete(`http://localhost:3001/${id}`);
     props.removePokemon(id);
   };
   const listItems = props.pokemons.map((pokemon) => (
