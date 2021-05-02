@@ -1,6 +1,6 @@
 # VS Code plugin "Rest Client"
 # https://marketplace.visualstudio.com/items?itemName=humao.rest-client
-POST http://localhost:3000
+POST http://localhost:3001
 Content-Type: application/json
 
 {
@@ -15,11 +15,11 @@ Content-Type: application/json
 
 ### 
 
-GET http://localhost:3000
+GET http://localhost:3001
 
 ###
 
-DELETE http://localhost:3000/2
+DELETE http://localhost:3001/2
 
 ### 
-GET http://localhost:3000/1
+GET http://localhost:3001/1

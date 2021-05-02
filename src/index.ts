@@ -14,7 +14,7 @@ const setupMongoDbMemoryServer = async () => {
   return { uri, port, dbPath, dbName };
 };
 
-export interface Pokemon {
+interface Pokemon {
   id: number;
   name: string;
   level: number;
@@ -28,13 +28,6 @@ export interface Pokemon {
 }
 
 type PokemonCollection = Collection<Pokemon>;
-
-const getPokemonNames = (pokemons: Pokemon[]) => {
-  return pokemons.map((pokemon) => pokemon.name);
-};
-const getPokemonNamesIds = (pokemons: Pokemon[]) => {
-  return pokemons.map((pokemon) => ({ name: pokemon.name, id: pokemon.id }));
-};
 
 function legalDepartmentApproves(name: string) {
   const illegalNames = [''];
@@ -67,8 +60,8 @@ async function run() {
   const pokemonsCollection = database.collection<Pokemon>('pokemons');
 
   app.get('/', async function (req, res) {
-    const pokemonNames = getPokemonNamesIds(await findAll(pokemonsCollection));
-    return res.send(pokemonNames);
+    const pokemons = await findAll(pokemonsCollection);
+    return res.send(pokemons);
   });
 
   app.get('/:id', async function (req, res) {
@@ -82,7 +75,8 @@ async function run() {
 
   app.delete('/:id', async function (req, res) {
     deleteOne(pokemonsCollection, { id: parseInt(req.params.id) });
-    res.send(getPokemonNames(await findAll(pokemonsCollection)));
+    const pokemons = await findAll(pokemonsCollection);
+    res.send(pokemons);
   });
 
   app.post('/', async function (req, res) {
@@ -90,12 +84,12 @@ async function run() {
     const id = await getNewPokemonId(pokemonsCollection);
     const newPokemon: Pokemon = { ...body, id: id };
     if (isPokemon(newPokemon)) {
-      await createOne(pokemonsCollection, newPokemon);
+      const addedPokemon = await createOne(pokemonsCollection, newPokemon);
+      return res.send(addedPokemon);
     } else {
       // https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client_error_responses
-      res.status(400).send('Pokemon name is not working!');
+      return res.status(400).send('Pokemon name is not working!');
     }
-    res.send(getPokemonNames(await findAll(pokemonsCollection)));
   });
 
   app.listen(port, function () {
